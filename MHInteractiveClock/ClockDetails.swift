@@ -9,7 +9,7 @@
 import UIKit
 
 /// 🎨 Styling of the Clock View.
-struct Style {
+public struct Style {
     /// Width of the Clock Face.
     var clockFaceBorderWidth: CGFloat = 4
     /// Color of the Clock Face.
@@ -67,7 +67,7 @@ struct Style {
 }
 
 /// ⚙️ Functional Attributes of the Clock.
-struct Functionality {
+public struct Functionality {
     /// Delegate of the Clock.
     weak var delegate: ClockViewDelegate?
     /// Switch between Hours and Minutes automatically when the Clock Hand has been interacted with.

@@ -13,7 +13,7 @@ protocol ClockViewDelegate: class {
     func didSelectMinutes(minutes: CGFloat)
 }
 
-class ClockView: UIView {
+public class ClockView: UIView {
     // MARK: - Public Variables
     /// Contains all the styleable elements of the clock
     public var style = Style()
@@ -37,7 +37,7 @@ class ClockView: UIView {
     }()
     
     /// Draw the initial clock
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         
         drawClockFace()
@@ -59,7 +59,7 @@ class ClockView: UIView {
     }
     
     /// Draw the ticks for the clock
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         super.draw(rect)
         
          drawTicks()
