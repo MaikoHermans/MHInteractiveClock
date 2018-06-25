@@ -87,7 +87,7 @@ public struct Functionality {
     
     private weak var clock: ClockView!
     
-    init(_ clock: ClockView) {
+    public init(_ clock: ClockView) {
         self.clock = clock
     }
 }

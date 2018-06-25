@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ClockViewDelegate: class {
+public protocol ClockViewDelegate: class {
     func didSelectHours(hours: CGFloat)
     func didSelectMinutes(minutes: CGFloat)
 }
@@ -24,7 +24,7 @@ public class ClockView: UIView {
     private var clockFaceLayer: CALayer!
     private var centerLayer: CALayer!
     private var handleLayer: CALayer!
-    public var radius: CGFloat!
+    private var radius: CGFloat!
     private var numberLayers: [CATextLayer] = []
     private var gestureEndTimer = Timer()
     
