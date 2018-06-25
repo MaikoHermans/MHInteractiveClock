@@ -304,7 +304,7 @@ extension ClockView {
     ///
     /// - Parameter isHours: Whether the hour or minute values need to be used.
     func drawNumbers(isHours: Bool) {
-        guard functionality.displayNumbers else { return }
+        guard functionality.displayNumbers, radius != nil else { return }
         
         cleanNumbers()
         

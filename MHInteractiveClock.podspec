@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.platform          = :ios
   s.ios.deployment_target   = '9.0'
   s.name         	= "MHInteractiveClock"
-  s.version      	= "0.0.4"
+  s.version      	= "0.0.5"
   s.summary      	= "A customizable clock of which the handle can be interacted with."
   s.requires_arc 	= true
   s.swift_version 	= '4.0'
