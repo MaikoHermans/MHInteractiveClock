@@ -16,14 +16,14 @@ public protocol ClockViewDelegate: class {
 public class ClockView: UIView {
     // MARK: - Public Variables
     /// Contains all the styleable elements of the clock
-    public var style = Style()
+    public lazy var style = Style()
     /// Contains all the functional elements of the clock
     public lazy var functionality = { return Functionality(self) }()
     
     // MARK: - Private Variables
-    private var clockFaceLayer: CALayer!
-    private var centerLayer: CALayer!
-    private var handleLayer: CALayer!
+    internal var clockFaceLayer: CALayer!
+    internal var centerLayer: CALayer!
+    internal var handLayer: CALayer!
     private var radius: CGFloat!
     private var numberLayers: [CATextLayer] = []
     private var gestureEndTimer = Timer()
@@ -39,13 +39,13 @@ public class ClockView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupClock()
+        
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        setupClock()
+
     }
     
     /// Draw the initial clock
@@ -59,7 +59,7 @@ public class ClockView: UIView {
         self.frame.origin.y = frame.midY - (frame.width / 2)
         self.backgroundColor = .clear
         
-        clockFaceLayer.addSublayer(handleLayer)
+        clockFaceLayer.addSublayer(handLayer)
         clockFaceLayer.addSublayer(centerLayer)
         
         layer.addSublayer(clockFaceLayer)
@@ -72,6 +72,7 @@ public class ClockView: UIView {
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
         
+        setupClock()
          drawTicks()
     }
     
@@ -128,7 +129,7 @@ extension ClockView {
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        handleLayer.transform = CATransform3DMakeRotation(-angle, 0, 0, 1)
+        handLayer.transform = CATransform3DMakeRotation(-angle, 0, 0, 1)
         CATransaction.commit()
         
         obtainTime(angle: angle, isHours: functionality.isHours, snap: false)
@@ -152,7 +153,7 @@ extension ClockView {
         let touchPoint = sender.location(in: locationInView)
         let angle = atan2(touchPoint.x - centerPoint.x, touchPoint.y - centerPoint.y)
         
-        handleLayer.transform = CATransform3DMakeRotation(-angle, 0, 0, 1)
+        handLayer.transform = CATransform3DMakeRotation(-angle, 0, 0, 1)
         
         if sender.state == .ended {
             obtainTime(angle: angle, isHours: functionality.isHours)
@@ -217,7 +218,7 @@ extension ClockView {
     ///
     /// - Parameter degrees: The degree of the clock handle.
     private func snapHandleToValue(degrees: CGFloat) {
-        handleLayer.transform = CATransform3DMakeRotation(((degrees + 180) * .pi) / 180, 0, 0, 1)
+        handLayer.transform = CATransform3DMakeRotation(((degrees + 180) * .pi) / 180, 0, 0, 1)
         
         let string = currentSelectedTextLayer?.string as? NSAttributedString
         let number = NSAttributedString(string: string?.string ?? "", attributes:[
@@ -281,13 +282,13 @@ extension ClockView {
     
     /// Draw the hour handle of the clock.
     private func drawHourHandle() {
-        handleLayer = CALayer()
-        handleLayer.frame = clockFaceLayer.frame
-        handleLayer.backgroundColor = style.clockHandColor.cgColor
-        handleLayer.anchorPoint = CGPoint(x: 0.5, y: 0)
-        handleLayer.position = CGPoint(x: clockFaceLayer.bounds.midX, y: clockFaceLayer.bounds.midY)
-        handleLayer.bounds = CGRect(x: 0, y: 0, width: style.clockHandWidth, height: (clockFaceLayer.bounds.width / 2) * style.clockHandHeightMultiplier)
-        handleLayer.allowsEdgeAntialiasing = true
+        handLayer = CALayer()
+        handLayer.frame = clockFaceLayer.frame
+        handLayer.backgroundColor = style.clockHandColor.cgColor
+        handLayer.anchorPoint = CGPoint(x: 0.5, y: 0)
+        handLayer.position = CGPoint(x: clockFaceLayer.bounds.midX, y: clockFaceLayer.bounds.midY)
+        handLayer.bounds = CGRect(x: 0, y: 0, width: style.clockHandWidth, height: (clockFaceLayer.bounds.width / 2) * style.clockHandHeightMultiplier)
+        handLayer.allowsEdgeAntialiasing = true
     }
     
     /// Set the hour handle to the current hour.
@@ -296,7 +297,7 @@ extension ClockView {
         let hours = calendar.component(.hour, from: Date())
         let hourAngle = -Double(hours % 12) * 360.0 / 12 + 180
         
-        handleLayer.transform = CATransform3DMakeRotation(CGFloat(hourAngle * Double.pi / -180), 0, 0, 1)
+        handLayer.transform = CATransform3DMakeRotation(CGFloat(hourAngle * Double.pi / -180), 0, 0, 1)
     }
     
     /// Draw out the values on the clock, the values could either be minutes or in hours.
