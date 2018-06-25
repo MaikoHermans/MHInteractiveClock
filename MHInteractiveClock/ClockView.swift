@@ -33,7 +33,7 @@ public class ClockView: UIView {
     private var currentSelectedTick: CAShapeLayer?
     
     private lazy var locationInView: UIView = {
-        return self.window?.rootViewController?.view ?? self.superview ?? self
+        return return self.superview ?? self
     }()
     
     public override init(frame: CGRect) {
