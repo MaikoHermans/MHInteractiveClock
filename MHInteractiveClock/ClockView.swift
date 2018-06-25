@@ -36,10 +36,20 @@ public class ClockView: UIView {
         return self.window?.rootViewController?.view ?? self.superview ?? self
     }()
     
-    /// Draw the initial clock
-    override public func awakeFromNib() {
-        super.awakeFromNib()
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
         
+        setupClock()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        setupClock()
+    }
+    
+    /// Draw the initial clock
+    private func setupClock() {
         drawClockFace()
         drawClockCenter()
         drawHourHandle()
