@@ -225,7 +225,8 @@ extension ClockView {
             guard snap else { return }
             snapHandleToValue(degrees: hour * 30)
         } else {
-            let minute = (-degrees / 6).rounded()
+            var minute = (-degrees / 6).rounded()
+            minute = minute == 60 ? 0 : minute
             functionality.delegate?.minuteValueChanged(minute: minute)
             selectedValue = minute
             
