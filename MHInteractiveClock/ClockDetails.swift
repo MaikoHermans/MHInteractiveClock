@@ -75,7 +75,7 @@ public struct Functionality {
     /// Switch between Hours and Minutes with set delay.
     public var switchDelay: Double = 1.5
     /// Whether the hours needs to be displayed or the minutes.
-    public var isHours: Bool = true { didSet { clock.drawNumbers(isHours: isHours) } }
+    public var isHours: Bool = true { didSet { clock.drawNumbers(isHours: isHours); clock.gestureEndTimer.invalidate() } }
     /// Whether the numbers need to be displayed or not.
     public var displayNumbers: Bool = true { didSet { clock.drawNumbers(isHours: isHours) } }
     /// Whether the ticks need to be displayed or not.

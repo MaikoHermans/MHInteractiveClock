@@ -38,9 +38,9 @@ public class ClockView: UIView {
     internal var clockFaceLayer: CALayer!
     internal var centerLayer: CALayer!
     internal var handLayer: CALayer!
+    internal var gestureEndTimer = Timer()
     private var radius: CGFloat!
     private var numberLayers: [CATextLayer] = []
-    private var gestureEndTimer = Timer()
     private var selectedValue: CGFloat?
     
     private var currentSelectedTextLayer: CATextLayer?
