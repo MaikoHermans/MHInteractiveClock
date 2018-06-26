@@ -9,8 +9,22 @@
 import UIKit
 
 public protocol ClockViewDelegate: class {
-    func didSelectHours(hours: CGFloat)
-    func didSelectMinutes(minutes: CGFloat)
+    /// When the user interacts with the clock hand and it's currently in the hour state this function will give you the ability to obtain the hour mark of the hand.
+    ///
+    /// - Parameter hour: The current marked hour.
+    func hourValueChanged(hour: CGFloat)
+    /// When the user interacts with the clock hand and it's currently in the minute state this function will give you the ability to obtain the minute mark of the hand.
+    ///
+    /// - Parameter minute: The current marked minute.
+    func minuteValueChanged(minute: CGFloat)
+    /// Called when the user stops interacting with the hand and the switchDelay has expired. Will give you the current selected mark.
+    ///
+    /// - Parameter hours: The currently selected hour.
+    func didSelectHours(hours: CGFloat?)
+    /// Called when the user stops interacting with the hand and the switchDelay has expired. Will give you the current selected mark.
+    ///
+    /// - Parameter minutes: The currently selected minute.
+    func didSelectMinutes(minutes: CGFloat?)
 }
 
 public class ClockView: UIView {
@@ -27,6 +41,7 @@ public class ClockView: UIView {
     private var radius: CGFloat!
     private var numberLayers: [CATextLayer] = []
     private var gestureEndTimer = Timer()
+    private var selectedValue: CGFloat?
     
     private var currentSelectedTextLayer: CATextLayer?
     private var currentSelectedLayer: CALayer?
@@ -83,9 +98,12 @@ extension ClockView {
     
     /// Switch from hours to minutes and the other way around when the gesture ended state has been triggered.
     @objc private func endGesture() {
+        functionality.isHours ? functionality.delegate?.didSelectHours(hours: selectedValue) : functionality.delegate?.didSelectMinutes(minutes: selectedValue)
+        
         guard functionality.autoSwitch else { return }
         
         functionality.isHours = !functionality.isHours
+        selectedValue = nil
         currentSelectedLayer?.removeFromSuperlayer()
         currentSelectedTick?.removeFromSuperlayer()
     }
@@ -201,13 +219,15 @@ extension ClockView {
         if isHours {
             var hour = (-degrees / 30).rounded()
             hour = hour == 0 ? 12 : hour
-            functionality.delegate?.didSelectHours(hours: hour)
+            functionality.delegate?.hourValueChanged(hour: hour)
+            selectedValue = hour
             
             guard snap else { return }
             snapHandleToValue(degrees: hour * 30)
         } else {
             let minute = (-degrees / 6).rounded()
-            functionality.delegate?.didSelectMinutes(minutes: minute)
+            functionality.delegate?.minuteValueChanged(minute: minute)
+            selectedValue = minute
             
             guard snap else { return }
             snapHandleToValue(degrees: minute * 6)
