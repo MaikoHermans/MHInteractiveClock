@@ -102,6 +102,7 @@ extension ClockView {
         
         guard functionality.autoSwitch else { return }
         
+        resetHand()
         functionality.isHours = !functionality.isHours
         selectedValue = nil
         currentSelectedLayer?.removeFromSuperlayer()
@@ -270,6 +271,12 @@ extension ClockView {
             currentSelectedLayer = layer
             currentSelectedTextLayer = textLayer
         }
+    }
+    
+    /// Reset the hand to 12.
+    private func resetHand() {
+        guard functionality.resetHand else { return }
+        handLayer.transform = CATransform3DMakeRotation((0 + 180) * .pi / 180, 0, 0, 1)
     }
     
 }

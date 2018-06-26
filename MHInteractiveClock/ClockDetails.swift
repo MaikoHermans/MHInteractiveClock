@@ -84,6 +84,8 @@ public struct Functionality {
     public var displaySelectedTick: Bool = true
     /// Whether the tick needs to be displayed or not if the selected number is an hour mark.
     public var displaySelectedHourTick: Bool = false
+    /// Whether the hand needs to be reset to the 12 position on the clock when autoSwitch is enabled.
+    public var resetHand: Bool = true
     
     private weak var clock: ClockView!
     
